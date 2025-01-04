@@ -50,7 +50,7 @@ class RegisterController extends Controller
     }
 
 
-    
+
     private function sendNotification(User $user, $message){
         broadcast(new NotificationEvent($user->id,$message));
     }

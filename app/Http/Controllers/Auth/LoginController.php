@@ -6,6 +6,7 @@ use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\LoginRepository;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +29,8 @@ class LoginController extends Controller
     public function invoke(LoginRequest $request)
     {
         $user = $this->loginRepository->attemptLogin($request->validated());
-        // $this->sendNotification($user);
+        $message = 'User Logged In';
+        $this->sendNotification($user, $message);
         $token = $user->createToken('Personal Access Token')->accessToken;
 
         return response()->json([
@@ -37,9 +39,7 @@ class LoginController extends Controller
         ]);
     }
 
-
-    private function sendNotification($user): void
-    {
-        NotificationEvent::dispatch($user);
+    private function sendNotification(User $user, $message){
+        broadcast(new NotificationEvent($user->id,$message));
     }
 }
