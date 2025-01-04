@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->string('location');
+            $table->string('salary');
+            $table->unsignedBigInteger('company_id')->constrained();
+            $table->string('status')->default('open');
             $table->timestamps();
         });
     }
