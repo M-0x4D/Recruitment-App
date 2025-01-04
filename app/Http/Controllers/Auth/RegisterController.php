@@ -49,6 +49,8 @@ class RegisterController extends Controller
         NotificationService::createNotification(auth('api')->user(),$message);
     }
 
+
+    
     private function sendNotification(User $user, $message){
         broadcast(new NotificationEvent($user->id,$message));
     }
